@@ -10,7 +10,7 @@ public class Field {
         this.value = value;
         this.rowId = rowId;
         this.columnId = columnId;
-        this. squareId = squareId;
+        this.squareId = squareId;
     }
 
     public int getRowId() {
