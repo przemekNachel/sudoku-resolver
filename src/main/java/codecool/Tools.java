@@ -23,7 +23,11 @@ public class Tools {
     public static void printSudoku(int[][] sudoku) {
         for(int i = 0; i < sudoku.length; i++) {
             for(int j = 0; j < sudoku[i].length; j++) {
-                System.out.print(sudoku[i][j] + " ");
+                if (sudoku[i][j] == 0) {
+                    System.out.print(". ");
+                } else {
+                    System.out.print(sudoku[i][j] + " ");
+                }
                 if (j == 2 || j == 5) System.out.print("| ");
             }
             System.out.println();
