@@ -58,6 +58,7 @@ public class App {
                 Field fieldToAdd = new Field(fieldValue, currentRowNo, currentColumnNo, currentSquareNo);
                 allFields.add(fieldToAdd);
                 currentColumnNo ++;
+
             }
 
             currentRowNo ++;
