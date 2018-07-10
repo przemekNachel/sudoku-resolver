@@ -1,5 +1,8 @@
 package codecool;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Tools {
 
     static int[][] tempSudoku = new int[][] {
@@ -24,5 +27,26 @@ public class Tools {
             System.out.println();
             if (i == 2 || i == 5) System.out.println("------+-------+------");
         }
+    }
+
+    public static boolean isCorrect(int[][] tempSudoku) {
+        boolean isCorrect = true;
+        isCorrect = checkSudokuLines(tempSudoku);
+        return isCorrect;
+    }
+
+    private static boolean checkSudokuLines(int[][] tempSudoku) {
+        boolean isCorrect = true;
+
+        Set<Integer> digits = new HashSet<>();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j : tempSudoku[i]) {
+                if (j != 0 && digits.contains(j)) isCorrect = false;
+                digits.add(j);
+            }
+            digits.clear();
+        }
+        return isCorrect;
     }
 }
