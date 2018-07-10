@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Tools {
 
-    static String n = "9....8.....6.2.8..2.84.37.68.....2.....24...91.47.....49...1....63......7...3.6..";
+    static String tempStringSudoku = "9....8.....6.2.8..2.84.37.68.....2.....24...91.47.....49...1....63......7...3.6..";
 
     static int[][] tempSudoku = new int[][] {
             {0, 0, 0,   0, 0, 6,   4, 0, 9},
@@ -40,7 +40,6 @@ public class Tools {
 
     private static boolean checkSudokuLines(int[][] tempSudoku) {
         boolean isCorrect = true;
-
         Set<Integer> digits = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
@@ -55,7 +54,6 @@ public class Tools {
 
     private static boolean checkSudokuColumns(int[][] tempSudoku) {
         boolean isCorrect = true;
-
         Set<Integer> digits = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
@@ -71,7 +69,6 @@ public class Tools {
 
     private static boolean checkSudokuSquares(int[][] tempSudoku) {
         boolean isCorrect = true;
-
         Set<Integer> digits = new HashSet<>();
 
         for(int i = 0; i < 9; i += 3) {
@@ -86,7 +83,6 @@ public class Tools {
                 digits.clear();
             }
         }
-
         return isCorrect;
     }
 
