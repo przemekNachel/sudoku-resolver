@@ -1,8 +1,16 @@
 package codecool;
 
+import codecool.model.Collection;
+
+import java.util.ArrayList;
+
 public class Tools {
 
-    static int[][] tempSudoku = new int[][] {
+    ArrayList<Collection> rows;
+    ArrayList<Collection> columns;
+    ArrayList<Collection> squares;
+
+    public static int[][] tempSudoku = new int[][] {
             {0, 0, 0,   0, 0, 6,   4, 0, 9},
             {4, 0, 0,   0, 1, 9,   5, 8, 0},
             {5, 0, 0,   0, 0, 0,   0, 1, 7},

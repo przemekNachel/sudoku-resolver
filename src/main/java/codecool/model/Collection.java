@@ -1,5 +1,7 @@
 package codecool.model;
 
+import codecool.Field;
+
 import java.util.ArrayList;
 
 /* Kolekcja która bedzie służyć zarówno do przechowywania fieldów w danym rzędzie/kolumnie/kwadracie
@@ -8,14 +10,14 @@ import java.util.ArrayList;
 public class Collection {
 
     int idOfColumn;
-    ArrayList<Integer> listOfFieldsInThisRow;
+    ArrayList<Field> listOfFieldsInThisRow;
 
     public Collection(int idOfColumn){
         this.idOfColumn = idOfColumn;
         listOfFieldsInThisRow = new ArrayList<>();
     }
 
-    public void addField(int field){
+    public void addField(Field field){
         listOfFieldsInThisRow.add(field);
     }
 }
