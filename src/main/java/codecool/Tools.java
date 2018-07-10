@@ -26,7 +26,7 @@ public class Tools {
                 if (j == 2 || j == 5) System.out.print("| ");
             }
             System.out.println();
-            if (i == 2 || i == 5) System.out.println("---------------------");
+            if (i == 2 || i == 5) System.out.println("------+-------+------");
         }
     }
 }
