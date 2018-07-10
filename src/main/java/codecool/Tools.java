@@ -1,6 +1,7 @@
 package codecool;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Tools {
@@ -111,5 +112,13 @@ public class Tools {
             }
         }
         return board;
+    }
+
+    public static int[][] fieldsToArray(List<Field> fields) {
+        int[][] array = new int[9][9];
+        for (Field field : fields) {
+            array[field.getRowId()][field.getColumnId()] = field.getValue();
+        }
+        return array;
     }
 }

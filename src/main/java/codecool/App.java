@@ -19,11 +19,14 @@ public class App {
         fullfillArraysWithEmptyCollections();
         addFieldsToCollections();
         System.out.println(Tools.isCorrect(tempSudoku));
-        for (Field field : allFields) {
-            System.out.print(
-                    "v" + field.getValue() + " c" + field.getColumnId() + " r" + field.getRowId() + " s" + field.getSquareId() + "\n"
-            );
-        }
+//        for (Field field : allFields) {
+//            System.out.print(
+//                    "v" + field.getValue() + " c" + field.getColumnId() + " r" + field.getRowId() + " s" + field.getSquareId() + "\n"
+//            );
+//        }
+        new Resolver(columns, rows, squares).resolve();
+        addFieldsFromCollumns();
+        Tools.printSudoku(Tools.fieldsToArray(allFields));
     }
 
     public static void fullfillArraysWithEmptyCollections(){
@@ -33,6 +36,17 @@ public class App {
             squares[i] = new Collection(i);
         }
     }
+
+    public static void addFieldsFromCollumns() {
+        allFields.clear();
+
+        for (Collection column : columns) {
+            for (Field field : column.getListOfFieldsInThisRow()) {
+                allFields.add(field);
+            }
+        }
+    }
+
 
     public static void addFieldsToCollections(){
         for(Field field : allFields){
