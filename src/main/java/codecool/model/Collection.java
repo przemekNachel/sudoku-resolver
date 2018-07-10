@@ -2,12 +2,12 @@ package codecool.model;
 
 import java.util.ArrayList;
 
-public class Column {
+public class Collection {
 
     int idOfColumn;
     ArrayList<Integer> listOfFieldsInThisRow;
 
-    public Column(int idOfColumn){
+    public Collection(int idOfColumn){
         this.idOfColumn = idOfColumn;
         listOfFieldsInThisRow = new ArrayList<>();
     }
