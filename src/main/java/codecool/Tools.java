@@ -21,8 +21,10 @@ public class Tools {
         for(int i=0; i<tempSudoku.length; i++) {
             for(int j=0; j<tempSudoku[i].length; j++) {
                 System.out.print(tempSudoku[i][j] + " ");
+                if (j == 2 || j == 5) System.out.print("| ");
             }
             System.out.println();
+            if (i == 2 || i == 5) System.out.println("---------------------");
         }
     }
 }
