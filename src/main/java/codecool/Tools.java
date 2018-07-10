@@ -30,9 +30,10 @@ public class Tools {
     }
 
     public static boolean isCorrect(int[][] tempSudoku) {
-        boolean isCorrect = true;
-        isCorrect = checkSudokuLines(tempSudoku);
-        return isCorrect;
+        boolean linesAreCorrect = checkSudokuLines(tempSudoku);
+        boolean columnsAreCorrect = checkSudokuColumns(tempSudoku);
+        boolean squaresAreCorrect = checkSudokuSquares(tempSudoku);
+        return linesAreCorrect && columnsAreCorrect && squaresAreCorrect;
     }
 
     private static boolean checkSudokuLines(int[][] tempSudoku) {
@@ -47,6 +48,40 @@ public class Tools {
             }
             digits.clear();
         }
+        return isCorrect;
+    }
+
+    private static boolean checkSudokuColumns(int[][] tempSudoku) {
+        boolean isCorrect = true;
+
+        Set<Integer> digits = new HashSet<>();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                int digit = tempSudoku[j][i];
+                if (digit != 0 && digits.contains(digit)) isCorrect = false;
+                digits.add(digit);
+            }
+            digits.clear();
+        }
+        return isCorrect;
+    }
+
+    private static boolean checkSudokuSquares(int[][] tempSudoku) {
+        boolean isCorrect = true;
+
+        Set<Integer> digits = new HashSet<>();
+
+        for(int i = 0; i < 9; i += 3) {
+            for(int j = 0; j < 9; j += 3) {
+                for(int x = j; x < j + 3; x++) {
+                    for(int y = i; y < i + 3; y++) {
+                        System.out.print(tempSudoku[x][y]);
+                    }
+                }
+            }
+        }
+
         return isCorrect;
     }
 }
