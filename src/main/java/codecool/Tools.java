@@ -76,9 +76,12 @@ public class Tools {
             for(int j = 0; j < 9; j += 3) {
                 for(int x = j; x < j + 3; x++) {
                     for(int y = i; y < i + 3; y++) {
-                        System.out.print(tempSudoku[x][y]);
+                        int digit = tempSudoku[x][y];
+                        if (digit != 0 && digits.contains(digit)) isCorrect = false;
+                        digits.add(digit);
                     }
                 }
+                digits.clear();
             }
         }
 
