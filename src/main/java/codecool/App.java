@@ -4,15 +4,9 @@ public class App {
 
     public static void main( String[] args )
     {
-        Tools.printSudoku(Tools.tempSudoku);
-        System.out.println(Tools.isCorrect(Tools.tempSudoku));
-        for (Field field : Tools.stringToFieldArrayList(Tools.n)) {
-            System.out.print(field.getValue() + "  c" + field.getColumnId() + "  r" +
-            field.getRowId() + "  s" + field.getSquareId() + "\n");
-        }
         System.out.println(Tools.n);
-
         Tools.printSudoku(Tools.stringToArray(Tools.n));
+        System.out.println(Tools.isCorrect(Tools.stringToArray(Tools.n)));
     }
 
     public void devideBoard(int[][] board){
