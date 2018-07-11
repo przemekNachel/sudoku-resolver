@@ -29,12 +29,14 @@ public class App {
 
         Field fieldToTest = allFields.get(6);
 //        System.out.println(fieldToTest.getValue());
+
+        /* W RAMACH TESTOWANIA */
         for(Field field : allFields){
-            ArrayList<Integer> possibleValues = findPossibleValue(field);
-            if(possibleValues != null && possibleValues.size()==1){
+            field.setProbablyValues(findPossibleValue(field));
+            if(field.getProbablyValues() != null && field.getProbablyValues().size()==1){
                 System.out.println("PEWNIACZEK DLA FIELDA O WSPÓŁRZĘDNYCH " + field.getRowId()
-                + " " + field.getColumnId() + " TO > " + possibleValues.get(0));
-                field.setValue(possibleValues.get(0));
+                + " " + field.getColumnId() + " TO > " + field.getProbablyValues().get(0));
+                field.setValue(field.getProbablyValues().get(0)); 
             }
         }
     }
@@ -46,10 +48,8 @@ public class App {
             return null;
         }
 
-        ArrayList<Integer> possibleValues = new ArrayList<Integer>();
-        for(int i = 1; i < 10 ; i++){
-            possibleValues.add(i);
-        }
+        ArrayList<Integer> possibleValues = field.getProbablyValues();
+
         Collection row = rows[field.getRowId()];
         Collection column = columns[field.getColumnId()];
         Collection square = squares[field.getSquareId()];

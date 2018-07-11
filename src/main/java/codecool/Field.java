@@ -18,6 +18,9 @@ public class Field {
         this.squareId = squareId;
         if(value==emptyFieldValue){
             probablyValues = new ArrayList<>(probablyListCapacity);
+            for(int i = 1 ; i <10 ; i++){
+                probablyValues.add(i);
+            }
         }
     }
 
@@ -43,6 +46,10 @@ public class Field {
 
     public ArrayList<Integer> getProbablyValues() {
         return probablyValues;
+    }
+
+    public void setProbablyValues(ArrayList<Integer> probablyValues){
+        this.probablyValues = probablyValues;
     }
 
     public void addProbablyValue(int value){
