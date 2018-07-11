@@ -61,25 +61,23 @@ public class Resolver {
         ArrayList<Integer> possibleValues = field.getProbablyValues();
 
         Collection row = rows[field.getRowId()];
+        ArrayList<Field> fieldsInRow = row.getListOfFieldsInThisRow();
         Collection column = columns[field.getColumnId()];
+        ArrayList<Field> fieldsInColumn = column.getListOfFieldsInThisRow();
         Collection square = squares[field.getSquareId()];
-        for(Field fieldToCheckInRow : row.getListOfFieldsInThisRow()) {
+        ArrayList<Field> fieldsInSquare = square.getListOfFieldsInThisRow();
+
+        ArrayList<Field> summaryFields = new ArrayList<>();
+        summaryFields.addAll(fieldsInRow);
+        summaryFields.addAll(fieldsInColumn);
+        summaryFields.addAll(fieldsInSquare);
+
+        for(Field fieldToCheckInRow : summaryFields) {
             if (possibleValues.contains(fieldToCheckInRow.getValue())) {
                 possibleValues.remove(new Integer(fieldToCheckInRow.getValue()));
             }
         }
 
-        for(Field fieldToCheckInColumn : column.getListOfFieldsInThisRow()){
-            if(possibleValues.contains(fieldToCheckInColumn.getValue())){
-                possibleValues.remove(new Integer(fieldToCheckInColumn.getValue()));
-            }
-        }
-
-        for(Field fieldToCheckInSquare : square.getListOfFieldsInThisRow()){
-            if(possibleValues.contains(fieldToCheckInSquare.getValue())){
-                possibleValues.remove(new Integer(fieldToCheckInSquare.getValue()));
-            }
-        }
 
         field.setProbablyValues(possibleValues);
 

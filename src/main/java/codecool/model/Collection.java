@@ -9,9 +9,7 @@ public class Collection {
 
     ArrayList<Field> listOfFieldsInThisRow;
 
-    public Collection(){
-        listOfFieldsInThisRow = new ArrayList<>();
-    }
+    public Collection(){ listOfFieldsInThisRow = new ArrayList<>(); }
 
     public void addField(Field field){
         listOfFieldsInThisRow.add(field);
