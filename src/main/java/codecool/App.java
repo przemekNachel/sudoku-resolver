@@ -48,7 +48,6 @@ public class App {
             }
         }
 
-
 //        System.out.println(rows[6].getListOfFieldsInThisRow().get(0).getProbablyValues());
 //        System.out.println(rows[6].getListOfFieldsInThisRow().get(0).getValue());
 //        System.out.println(rows[6].getListOfFieldsInThisRow().get(0).getColumnId());
