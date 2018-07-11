@@ -3,26 +3,27 @@ package codecool.model;
 import java.util.ArrayList;
 
 public class Field {
+    private final static int ARRAY_CAPACITY = 9;
+    private final static int EMPTY_FIELD_VALUE = 0;
     private int value;
     private int rowId;
     private int columnId;
     private int squareId;
-    private int emptyFieldValue = 0;
     private ArrayList<Integer> probablyValues;
-    private int probablyListCapacity = 9;
 
     public Field(int value, int rowId, int columnId, int squareId){
         this.value = value;
         this.rowId = rowId;
         this.columnId = columnId;
         this.squareId = squareId;
-        if(value==emptyFieldValue){
-            probablyValues = new ArrayList<>(probablyListCapacity);
-            for(int i = 1 ; i <10 ; i++){
-                probablyValues.add(i);
-            }
-        }
+        if(value == EMPTY_FIELD_VALUE) addInitialProbablyValues();
     }
+
+    private void addInitialProbablyValues() {
+        probablyValues = new ArrayList<>(ARRAY_CAPACITY);
+        for(int i = 1 ; i <10 ; i++) probablyValues.add(i);
+    }
+
 
     public int getRowId() {
         return rowId;
