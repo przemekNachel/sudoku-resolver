@@ -2,9 +2,6 @@ package codecool.model;
 
 import java.util.ArrayList;
 
-/* Kolekcja która bedzie służyć zarówno do przechowywania fieldów w danym rzędzie/kolumnie/kwadracie
- */
-
 public class Collection {
 
     ArrayList<Field> listOfFieldsInThisRow;
