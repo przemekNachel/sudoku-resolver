@@ -4,9 +4,6 @@ package codecool;
 import codecool.model.Collection;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class App {
 
@@ -15,13 +12,21 @@ public class App {
     static Collection[] columns = new Collection[9];
     static Collection[] squares = new Collection[9];
 
-    public static void main( String[] args )
-
-    {
-        Tools.printSudoku(Tools.tempSudoku);
-        devideBoard(Tools.tempSudoku);
+    public static void main(String[] args) {
+        int[][] tempSudoku = Tools.stringToArray(Tools.tempStringSudoku);
+        Tools.printSudoku(tempSudoku);
+        divideBoard(tempSudoku);
         fullfillArraysWithEmptyCollections();
         addFieldsToCollections();
+        System.out.println(Tools.isCorrect(tempSudoku));
+//        for (Field field : allFields) {
+//            System.out.print(
+//                    "v" + field.getValue() + " c" + field.getColumnId() + " r" + field.getRowId() + " s" + field.getSquareId() + "\n"
+//            );
+//        }
+        new Resolver(columns, rows, squares).resolve();
+        addFieldsFromCollumns();
+        Tools.printSudoku(Tools.fieldsToArray(allFields));
     }
 
     public static void fullfillArraysWithEmptyCollections(){
@@ -32,6 +37,17 @@ public class App {
         }
     }
 
+    public static void addFieldsFromCollumns() {
+        allFields.clear();
+
+        for (Collection column : columns) {
+            for (Field field : column.getListOfFieldsInThisRow()) {
+                allFields.add(field);
+            }
+        }
+    }
+
+
     public static void addFieldsToCollections(){
         for(Field field : allFields){
 
@@ -41,7 +57,7 @@ public class App {
         }
     }
 
-    public static void devideBoard(int[][] board){
+    public static void divideBoard(int[][] board){
         int currentRowNo = 0;
         int currentColumnNo = 0;
         int currentSquareNo = -1;
