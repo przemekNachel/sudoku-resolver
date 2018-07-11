@@ -1,4 +1,4 @@
-package codecool;
+package codecool.model;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,5 @@
 package codecool.model;
 
-import codecool.Field;
-
 import java.util.ArrayList;
 
 /* Kolekcja która bedzie służyć zarówno do przechowywania fieldów w danym rzędzie/kolumnie/kwadracie
