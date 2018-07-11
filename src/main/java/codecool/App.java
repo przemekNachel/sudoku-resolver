@@ -11,5 +11,7 @@ public class App {
 
         int[][] resolved = resolver.resolve();
         Tools.printSudoku(resolved);
+
+        System.out.println(Tools.isCorrect(resolved));
     }
 }

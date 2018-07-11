@@ -20,42 +20,43 @@ public class Resolver {
     }
 
     public int[][] resolve() {
-        boolean isSolved = false;
+        boolean areAllCertainFound = false;
 
-        while(!isSolved) {
-            isSolved = true;
+        while(!areAllCertainFound) {
+            areAllCertainFound = true;
             for (Field field : allFields) {
                 if(field.getValue()!=0) continue;
                 findPossibleValue(field);
                 if (field.getProbablyValues().size() == 1) {
                     field.setValue(field.getProbablyValues().get(0));
-                    isSolved = false;
+                    areAllCertainFound = false;
                 }
             }
         }
         return Tools.fieldsToArray(allFields);
     }
 
-    private ArrayList<Integer> findPossibleValue(Field field){
-        if(field.getValue()!=0) return null;
+    private void findPossibleValue(Field field){
+        if(field.getValue()!=0) return;
 
-        ArrayList<Integer> possibleValues = field.getProbablyValues();
+        ArrayList<Field> summaryFields = getSummaryFields(field);
+        for(Field fieldToCheck : summaryFields) {
+            if (field.getProbablyValues().contains(fieldToCheck.getValue())) {
+                field.getProbablyValues().remove(new Integer(fieldToCheck.getValue()));
+            }
+        }
+        field.setProbablyValues(field.getProbablyValues());
+    }
+
+    private ArrayList<Field> getSummaryFields(Field field) {
         ArrayList<Field> summaryFields = new ArrayList<>();
-
         summaryFields.addAll(rows[field.getRowId()].getListOfFieldsInThisRow());
         summaryFields.addAll(columns[field.getColumnId()].getListOfFieldsInThisRow());
         summaryFields.addAll(squares[field.getSquareId()].getListOfFieldsInThisRow());
-
-        for(Field fieldToCheck : summaryFields) {
-            if (possibleValues.contains(fieldToCheck.getValue())) {
-                possibleValues.remove(new Integer(fieldToCheck.getValue()));
-            }
-        }
-        field.setProbablyValues(possibleValues);
-        return possibleValues;
+        return summaryFields;
     }
 
-    private void fullfillArraysWithEmptyCollections(){
+    private void fillArraysWithEmptyCollections(){
         for(int i = 0 ; i<9 ;i++){
             rows[i] = new Collection();
             columns[i] = new Collection();
@@ -65,7 +66,7 @@ public class Resolver {
 
 
     private void addFieldsToCollections(){
-        fullfillArraysWithEmptyCollections();
+        fillArraysWithEmptyCollections();
         for(Field field : allFields){
             rows[field.getRowId()].addField(field);
             columns[field.getColumnId()].addField(field);
@@ -79,26 +80,16 @@ public class Resolver {
         int currentSquareNo = -1;
         for(int[] row : sudoku){
             for(int fieldValue:row){
-
-                if(currentColumnNo%3==0){
-                    currentSquareNo ++ ;
-                }
-
+                if(currentColumnNo%3==0) currentSquareNo ++ ;
                 Field fieldToAdd = new Field(fieldValue, currentRowNo, currentColumnNo, currentSquareNo);
                 allFields.add(fieldToAdd);
                 currentColumnNo ++;
             }
-
             currentRowNo ++;
             currentSquareNo = -1;
             currentColumnNo = 0;
-
-            if(currentRowNo > 5){
-                currentSquareNo += 6;
-            }
-            else if(currentRowNo > 2){
-                currentSquareNo += 3;
-            }
+            if(currentRowNo > 5) currentSquareNo += 6;
+            else if(currentRowNo > 2) currentSquareNo += 3;
         }
     }
 }
