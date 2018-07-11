@@ -19,14 +19,61 @@ public class App {
         fullfillArraysWithEmptyCollections();
         addFieldsToCollections();
         System.out.println(Tools.isCorrect(tempSudoku));
-//        for (Field field : allFields) {
-//            System.out.print(
-//                    "v" + field.getValue() + " c" + field.getColumnId() + " r" + field.getRowId() + " s" + field.getSquareId() + "\n"
-//            );
-//        }
-        new Resolver(columns, rows, squares).resolve();
-        addFieldsFromCollumns();
+        for (Field field : allFields) {
+            System.out.print(
+                    "v" + field.getValue() + " c" + field.getColumnId() + " r" + field.getRowId() + " s" + field.getSquareId() + "\n"
+            );
+        }
+//        addFieldsFromCollumns();
         Tools.printSudoku(Tools.fieldsToArray(allFields));
+
+        Field fieldToTest = allFields.get(6);
+//        System.out.println(fieldToTest.getValue());
+        for(Field field : allFields){
+            ArrayList<Integer> possibleValues = findPossibleValue(field);
+            if(possibleValues != null && possibleValues.size()==1){
+                System.out.println("PEWNIACZEK DLA FIELDA O WSPÓŁRZĘDNYCH " + field.getRowId()
+                + " " + field.getColumnId() + " TO > " + possibleValues.get(0));
+                field.setValue(possibleValues.get(0));
+            }
+        }
+    }
+
+    public static ArrayList<Integer> findPossibleValue(Field field){
+
+        if(field.getValue()!=0){
+            System.out.println("This field is not empty");
+            return null;
+        }
+
+        ArrayList<Integer> possibleValues = new ArrayList<Integer>();
+        for(int i = 1; i < 10 ; i++){
+            possibleValues.add(i);
+        }
+        Collection row = rows[field.getRowId()];
+        Collection column = columns[field.getColumnId()];
+        Collection square = squares[field.getSquareId()];
+        for(Field fieldToCheckInRow : row.getListOfFieldsInThisRow()) {
+            if (possibleValues.contains(fieldToCheckInRow.getValue())) {
+                possibleValues.remove(new Integer(fieldToCheckInRow.getValue()));
+            }
+        }
+
+        for(Field fieldToCheckInColumn : column.getListOfFieldsInThisRow()){
+            if(possibleValues.contains(fieldToCheckInColumn.getValue())){
+                possibleValues.remove(new Integer(fieldToCheckInColumn.getValue()));
+            }
+        }
+
+        for(Field fieldToCheckInSquare : square.getListOfFieldsInThisRow()){
+            if(possibleValues.contains(fieldToCheckInSquare.getValue())){
+                possibleValues.remove(new Integer(fieldToCheckInSquare.getValue()));
+            }
+        }
+
+        System.out.println(possibleValues.toString());
+
+        return possibleValues;
     }
 
     public static void fullfillArraysWithEmptyCollections(){
@@ -37,15 +84,15 @@ public class App {
         }
     }
 
-    public static void addFieldsFromCollumns() {
-        allFields.clear();
-
-        for (Collection column : columns) {
-            for (Field field : column.getListOfFieldsInThisRow()) {
-                allFields.add(field);
-            }
-        }
-    }
+//    public static void addFieldsFromCollumns() {
+//        allFields.clear();
+//
+//        for (Collection column : columns) {
+//            for (Field field : column.getListOfFieldsInThisRow()) {
+//                allFields.add(field);
+//            }
+//        }
+//    }
 
 
     public static void addFieldsToCollections(){
