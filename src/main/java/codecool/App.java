@@ -12,39 +12,37 @@ public class App {
     static Collection[] columns = new Collection[9];
     static Collection[] squares = new Collection[9];
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         int[][] tempSudoku = Tools.stringToArray(Tools.tempStringSudoku);
-        Tools.printSudoku(tempSudoku);
         divideBoard(tempSudoku);
         fullfillArraysWithEmptyCollections();
         addFieldsToCollections();
         System.out.println(Tools.isCorrect(tempSudoku));
-        for (Field field : allFields) {
-            System.out.print(
-                    "v" + field.getValue() + " c" + field.getColumnId() + " r" + field.getRowId() + " s" + field.getSquareId() + "\n"
-            );
-        }
+
 //        addFieldsFromCollumns();
         Tools.printSudoku(Tools.fieldsToArray(allFields));
 
-        Field fieldToTest = allFields.get(6);
-//        System.out.println(fieldToTest.getValue());
-
         /* W RAMACH TESTOWANIA */
-        for(Field field : allFields){
-            field.setProbablyValues(findPossibleValue(field));
-            if(field.getProbablyValues() != null && field.getProbablyValues().size()==1){
-                System.out.println("PEWNIACZEK DLA FIELDA O WSPÓŁRZĘDNYCH " + field.getRowId()
-                + " " + field.getColumnId() + " TO > " + field.getProbablyValues().get(0));
-                field.setValue(field.getProbablyValues().get(0)); 
+        boolean areAllCertainFound = false;
+        while(!areAllCertainFound) {
+            for (Field field : allFields) {
+                findPossibleValue(field);
+                if (field.getProbablyValues() != null && field.getProbablyValues().size() == 1) {
+                    System.out.println("PEWNIACZEK DLA FIELDA O WSPÓŁRZĘDNYCH " + field.getRowId()
+                            + " " + field.getColumnId() + " TO > " + field.getProbablyValues().get(0));
+                    field.setValue(field.getProbablyValues().get(0));
+                    Tools.printSudoku(Tools.fieldsToArray(allFields));
+                    Thread.sleep(1000);
+                } else {
+                    areAllCertainFound = true;
+                }
             }
         }
-    }
+        }
 
     public static ArrayList<Integer> findPossibleValue(Field field){
 
         if(field.getValue()!=0){
-            System.out.println("This field is not empty");
             return null;
         }
 
@@ -71,7 +69,7 @@ public class App {
             }
         }
 
-        System.out.println(possibleValues.toString());
+        field.setProbablyValues(possibleValues);
 
         return possibleValues;
     }
