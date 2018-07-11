@@ -3,8 +3,8 @@ package codecool.model;
 import java.util.ArrayList;
 
 public class Field {
-    private final static int ARRAY_CAPACITY = 9;
-    private final static int EMPTY_FIELD_VALUE = 0;
+    private static final int ARRAY_CAPACITY = 9;
+    private static final int EMPTY_FIELD_VALUE = 0;
     private int value;
     private int rowId;
     private int columnId;

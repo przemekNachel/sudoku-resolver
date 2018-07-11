@@ -9,6 +9,7 @@ import java.util.Set;
 public class Tools {
 
     static String tempStringSudoku = "8.4.59.....1....5......362.5..........2.....8.....4...98.6..3.1.2.89..4.1..3.....";
+//    static String tempStringSudoku = "...12..8.3....8...4.16....7..9..4.......1....1...82.9.8.4.6.1..2....97.4......3..";
 
     static int[][] tempSudoku = new int[][] {
             {0, 0, 0,   0, 0, 6,   4, 0, 9},
@@ -38,19 +39,19 @@ public class Tools {
         }
     }
 
-    public static boolean isCorrect(int[][] tempSudoku) {
-        boolean linesAreCorrect = checkSudokuLines(tempSudoku);
-        boolean columnsAreCorrect = checkSudokuColumns(tempSudoku);
-        boolean squaresAreCorrect = checkSudokuSquares(tempSudoku);
+    public static boolean isCorrect(int[][] sudoku) {
+        boolean linesAreCorrect = checkSudokuLines(sudoku);
+        boolean columnsAreCorrect = checkSudokuColumns(sudoku);
+        boolean squaresAreCorrect = checkSudokuSquares(sudoku);
         return linesAreCorrect && columnsAreCorrect && squaresAreCorrect;
     }
 
-    private static boolean checkSudokuLines(int[][] tempSudoku) {
+    private static boolean checkSudokuLines(int[][] sudoku) {
         boolean isCorrect = true;
         Set<Integer> digits = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
-            for (int j : tempSudoku[i]) {
+            for (int j : sudoku[i]) {
                 if (j != 0 && digits.contains(j)) isCorrect = false;
                 digits.add(j);
             }
@@ -59,13 +60,13 @@ public class Tools {
         return isCorrect;
     }
 
-    private static boolean checkSudokuColumns(int[][] tempSudoku) {
+    private static boolean checkSudokuColumns(int[][] sudoku) {
         boolean isCorrect = true;
         Set<Integer> digits = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                int digit = tempSudoku[j][i];
+                int digit = sudoku[j][i];
                 if (digit != 0 && digits.contains(digit)) isCorrect = false;
                 digits.add(digit);
             }
@@ -74,7 +75,7 @@ public class Tools {
         return isCorrect;
     }
 
-    private static boolean checkSudokuSquares(int[][] tempSudoku) {
+    private static boolean checkSudokuSquares(int[][] sudoku) {
         boolean isCorrect = true;
         Set<Integer> digits = new HashSet<>();
 
@@ -82,7 +83,7 @@ public class Tools {
             for(int j = 0; j < 9; j += 3) {
                 for(int x = j; x < j + 3; x++) {
                     for(int y = i; y < i + 3; y++) {
-                        int digit = tempSudoku[x][y];
+                        int digit = sudoku[x][y];
                         if (digit != 0 && digits.contains(digit)) isCorrect = false;
                         digits.add(digit);
                     }
@@ -106,11 +107,9 @@ public class Tools {
         int x = 0;
         int y = 0;
         for (int i : intArray) {
-            board[y][x] = i;
-            x++;
+            board[y][x] = i; x++;
             if (x == 9) {
-                y++;
-                x = 0;
+                y++; x = 0;
             }
         }
         return board;
@@ -122,5 +121,13 @@ public class Tools {
             array[field.getRowId()][field.getColumnId()] = field.getValue();
         }
         return array;
+    }
+
+    public static boolean isFullAndCorrect(int[][] sudoku) {
+        for (int[] line : sudoku) {
+            for (int i : line)
+                if (i == 0) return false;
+        }
+        return isCorrect(sudoku);
     }
 }

@@ -7,11 +7,15 @@ import java.util.ArrayList;
 
 public class Resolver {
 
+    private static final boolean SHOW_STEPS = true;
+    private static final int STEP_TIME = 0;
+    private int step = 0;
     private int[][] sudoku;
     private ArrayList<Field> allFields = new ArrayList<>();
     private Collection[] rows = new Collection[9];
     private Collection[] columns = new Collection[9];
     private Collection[] squares = new Collection[9];
+
 
     public Resolver(int[][] sudoku) {
         this.sudoku = sudoku;
@@ -19,21 +23,37 @@ public class Resolver {
         addFieldsToCollections();
     }
 
-    public int[][] resolve() {
-        boolean areAllCertainFound = false;
 
+    public int[][] resolve() {
+        checkLastPossibleValues();
+        return Tools.fieldsToArray(allFields);
+    }
+
+    private void checkLastPossibleValues() {
+        boolean areAllCertainFound = false;
         while(!areAllCertainFound) {
             areAllCertainFound = true;
             for (Field field : allFields) {
-                if(field.getValue()!=0) continue;
-                findPossibleValue(field);
-                if (field.getProbablyValues().size() == 1) {
-                    field.setValue(field.getProbablyValues().get(0));
-                    areAllCertainFound = false;
+                if(field.getValue() == 0) {
+                    findPossibleValue(field);
+                    if (field.getProbablyValues().size() == 1) {
+                        field.setValue(field.getProbablyValues().get(0));
+                        areAllCertainFound = false;
+                        if (SHOW_STEPS) showStep();
+                    }
                 }
             }
         }
-        return Tools.fieldsToArray(allFields);
+    }
+
+    private void showStep() {
+        Tools.printSudoku(Tools.fieldsToArray(allFields));
+        System.out.println("step " + step++);
+        try {
+            Thread.sleep(STEP_TIME);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void findPossibleValue(Field field){
