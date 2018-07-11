@@ -24,21 +24,37 @@ public class App {
 
         /* W RAMACH TESTOWANIA */
         boolean areAllCertainFound = false;
+
+        int numberOfInserted = 0;
         while(!areAllCertainFound) {
+            areAllCertainFound = true;
+
             for (Field field : allFields) {
+                if(field.getValue()!=0){
+                    continue;
+                }
                 findPossibleValue(field);
                 if (field.getProbablyValues() != null && field.getProbablyValues().size() == 1) {
                     System.out.println("PEWNIACZEK DLA FIELDA O WSPÓŁRZĘDNYCH " + field.getRowId()
                             + " " + field.getColumnId() + " TO > " + field.getProbablyValues().get(0));
                     field.setValue(field.getProbablyValues().get(0));
+                    numberOfInserted++;
                     Tools.printSudoku(Tools.fieldsToArray(allFields));
-                    Thread.sleep(1000);
-                } else {
-                    areAllCertainFound = true;
+                    System.out.println(numberOfInserted);
+                    System.out.println(Tools.isCorrect(Tools.fieldsToArray(allFields)));
+                    Thread.sleep(100);
+                    areAllCertainFound = false;
                 }
             }
         }
-        }
+
+
+//        System.out.println(rows[6].getListOfFieldsInThisRow().get(0).getProbablyValues());
+//        System.out.println(rows[6].getListOfFieldsInThisRow().get(0).getValue());
+//        System.out.println(rows[6].getListOfFieldsInThisRow().get(0).getColumnId());
+//        System.out.println(rows[6].getListOfFieldsInThisRow().get(0).getRowId());
+
+    }
 
     public static ArrayList<Integer> findPossibleValue(Field field){
 
