@@ -1,4 +1,4 @@
-package codecool;
+package codecool.model;
 
 import java.util.ArrayList;
 
@@ -52,15 +52,4 @@ public class Field {
         this.probablyValues = probablyValues;
     }
 
-    public void addProbablyValue(int value){
-        probablyValues.add(value);
-    }
-
-    public void removeProbablyValue(int value){
-        for (int i : probablyValues){
-            if(i==value){
-                probablyValues.remove(i);
-            }
-        }
-    }
 }
