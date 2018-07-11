@@ -9,12 +9,9 @@ import java.util.ArrayList;
 
 public class Collection {
 
-    int idOfColumn;
     ArrayList<Field> listOfFieldsInThisRow;
-    private Field lastEmpty;
 
-    public Collection(int idOfColumn){
-        this.idOfColumn = idOfColumn;
+    public Collection(){
         listOfFieldsInThisRow = new ArrayList<>();
     }
 

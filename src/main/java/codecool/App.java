@@ -92,9 +92,9 @@ public class App {
 
     public static void fullfillArraysWithEmptyCollections(){
         for(int i = 0 ; i<9 ;i++){
-            rows[i] = new Collection(i);
-            columns[i] = new Collection(i);
-            squares[i] = new Collection(i);
+            rows[i] = new Collection();
+            columns[i] = new Collection();
+            squares[i] = new Collection();
         }
     }
 
