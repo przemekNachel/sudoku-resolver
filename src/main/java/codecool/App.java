@@ -34,9 +34,6 @@ public class App {
 
     public static void addFieldsToCollections(){
         for(Field field : allFields){
-            if(field.getValue()==0){
-                continue;
-            }
 
             rows[field.getRowId()].addField(field);
             columns[field.getColumnId()].addField(field);
@@ -58,7 +55,6 @@ public class App {
                 Field fieldToAdd = new Field(fieldValue, currentRowNo, currentColumnNo, currentSquareNo);
                 allFields.add(fieldToAdd);
                 currentColumnNo ++;
-
             }
 
             currentRowNo ++;
