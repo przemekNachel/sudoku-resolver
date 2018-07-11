@@ -5,19 +5,60 @@ import codecool.model.Field;
 
 import java.util.ArrayList;
 
-public class Resolver {
+public class Resolver extends Thread{
 
     private ArrayList<Field> allFields = new ArrayList<>();
     private Collection[] rows = new Collection[9];
     private Collection[] columns = new Collection[9];
     private Collection[] squares = new Collection[9];
 
-    public void resolve(int[][] sudoku) {
+    public Resolver(int[][] sudoku){
         divideBoard(sudoku);
         fullfillArraysWithEmptyCollections();
         addFieldsToCollections();
         System.out.println(Tools.isCorrect(sudoku));
+    }
 
+    public Resolver(ArrayList<Field> allFields, Collection[] rows, Collection[] columns, Collection[] squares){
+        this.rows = rows;
+        this.columns = columns;
+        this.squares = squares;
+        this.allFields = allFields;
+    }
+
+    public void run(){
+        resolve();
+        if(!isSolved()) {
+            Field field = getFieldWithTwoPossibilities();
+            field.setValue(field.getProbablyValues().get(0));
+            Resolver resolver = new Resolver(allFields, rows, columns, squares);
+            resolver.start();
+            field.setValue(field.getProbablyValues().get(1));
+            Resolver nextResolver = new Resolver(allFields, rows, columns, squares);
+            nextResolver.start();
+        }
+    }
+
+    private boolean isSolved(){
+        for(Field field: allFields){
+            if(field.getValue() == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private Field getFieldWithTwoPossibilities(){
+        for(Field field: allFields){
+            if(field.getValue() == 0 && findPossibleValue(field).size() == 2) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    public void resolve() {
 //        addFieldsFromCollumns();
         Tools.printSudoku(Tools.fieldsToArray(allFields));
 
@@ -34,6 +75,7 @@ public class Resolver {
                 }
                 findPossibleValue(field);
                 if (field.getProbablyValues() != null && field.getProbablyValues().size() == 1) {
+                    System.out.println("\n\n\n" + Thread.currentThread().getId());
                     System.out.println("PEWNIACZEK DLA FIELDA O WSPÓŁRZĘDNYCH " + field.getRowId()
                             + " " + field.getColumnId() + " TO > " + field.getProbablyValues().get(0));
                     field.setValue(field.getProbablyValues().get(0));
