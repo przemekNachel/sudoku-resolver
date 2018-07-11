@@ -25,7 +25,10 @@ public class Resolver {
 
 
     public int[][] resolve() {
-        checkLastPossibleValues();
+        while(!Tools.isFullAndCorrect(Tools.fieldsToArray(allFields))) {
+            checkLastPossibleValues();
+
+        }
         return Tools.fieldsToArray(allFields);
     }
 
