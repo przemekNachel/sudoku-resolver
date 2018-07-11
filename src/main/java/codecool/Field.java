@@ -46,6 +46,14 @@ public class Field {
     }
 
     public void addProbablyValue(int value){
-        
+        probablyValues.add(value);
+    }
+
+    public void removeProbablyValue(int value){
+        for (int i : probablyValues){
+            if(i==value){
+                probablyValues.remove(i);
+            }
+        }
     }
 }
