@@ -4,6 +4,7 @@ import codecool.model.Collection;
 import codecool.model.Field;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class Resolver extends Thread{
 
@@ -11,7 +12,8 @@ public class Resolver extends Thread{
     private Collection[] rows = new Collection[9];
     private Collection[] columns = new Collection[9];
     private Collection[] squares = new Collection[9];
-
+    static long startTime;
+    static long stopTime;
 
     public Resolver(int[][] sudoku){
         divideBoard(sudoku);
@@ -21,7 +23,6 @@ public class Resolver extends Thread{
 
     public void run(){
         try {
-            System.out.println(Tools.getResolverThreads().size());
             resolve();
             if (!isSolved()) {
                 Field field = null;
@@ -42,8 +43,9 @@ public class Resolver extends Thread{
                         resolver.interrupt();
                     }
                     try {
+                        stopTime = System.currentTimeMillis();
                         sleep(1000);
-                        System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + "\n");
+                        System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + " in " + (stopTime - startTime) + " milliseconds.\n");
                         Tools.printSudoku(Tools.fieldsToArray(allFields));
                         System.out.println("Thread count: " + Tools.getResolverThreads().size());
                     } catch (InterruptedException e) {
@@ -53,6 +55,8 @@ public class Resolver extends Thread{
             }
         }
         catch (NullPointerException e){
+
+        }catch (ConcurrentModificationException e){
 
         }
     }
