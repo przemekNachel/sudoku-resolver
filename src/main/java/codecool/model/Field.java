@@ -1,4 +1,4 @@
-package codecool;
+package codecool.model;
 
 import java.util.ArrayList;
 
@@ -9,8 +9,6 @@ public class Field {
     private int squareId;
     private int emptyFieldValue = 0;
     private ArrayList<Integer> probablyValues;
-    private boolean hasTemporary = false;
-    private ArrayList<Integer> temporaryValues = new ArrayList<>();
     private int probablyListCapacity = 9;
 
     public Field(int value, int rowId, int columnId, int squareId){
@@ -47,24 +45,11 @@ public class Field {
     }
 
     public ArrayList<Integer> getProbablyValues() {
-        return probablyValues;
+        if (probablyValues != null && !probablyValues.isEmpty()){
+            return probablyValues;
+        }
+        ArrayList<Integer> notNullList = new ArrayList<>();
+        notNullList.add(null);
+        return notNullList;
     }
-
-    public void setTemporaryValues(ArrayList<Integer> temporaryValues){
-        hasTemporary = true;
-        this.temporaryValues = temporaryValues;
-    }
-
-    public boolean hasTemporary(){
-        return hasTemporary;
-    }
-
-    public ArrayList<Integer> getTemporaryValues() {
-        return temporaryValues;
-    }
-
-    public void setProbablyValues(ArrayList<Integer> probablyValues){
-        this.probablyValues = probablyValues;
-    }
-    
 }
