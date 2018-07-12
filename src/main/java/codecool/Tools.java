@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Tools {
 
-    static String tempStringSudoku = "..........12.34567.345.6182..1.582.6..86....1.2...7.5...37.5.28.8..6.7..2.7.83615";
+    static String tempStringSudoku = ".....75..7..1...4.5.....2....139...83..786..48...417....8.....9.5...3..1..46.....";
 
     static int[][] tempSudoku = new int[][] {
             {0, 0, 0,   0, 0, 6,   4, 0, 9},

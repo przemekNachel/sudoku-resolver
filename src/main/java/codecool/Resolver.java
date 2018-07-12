@@ -20,33 +20,33 @@ public class Resolver extends Thread{
         System.out.println(Tools.isCorrect(sudoku));
     }
 
-    public Resolver(ArrayList<Field> allFields, Collection[] rows, Collection[] columns, Collection[] squares){
-        this.rows = rows;
-        this.columns = columns;
-        this.squares = squares;
-        this.allFields = allFields;
-    }
-
     public void run(){
         resolve();
         if(!isSolved()) {
-            ArrayList<Field> fields = getFieldsWithTwoPossibilities();
-            for(Field field: fields ) {
-                field.setValue(field.getProbablyValues().get(0));
-                Resolver resolver = new Resolver(allFields, rows, columns, squares);
-                resolverThreads.add(resolver);
-                resolver.start();
-                field.setValue(field.getProbablyValues().get(1));
-                Resolver nextResolver = new Resolver(allFields, rows, columns, squares);
-                resolverThreads.add(nextResolver);
-                nextResolver.start();
-            }
+            Field field = getFieldWithTwoPossibilities();
+            field.setValue(field.getProbablyValues().get(0));
+            Resolver resolver = new Resolver( Tools.fieldsToArray(allFields));
+            resolverThreads.add(resolver);
+            resolver.start();
+            field.setValue(field.getProbablyValues().get(1));
+            Resolver nextResolver = new Resolver(Tools.fieldsToArray(allFields));
+            resolverThreads.add(nextResolver);
+            nextResolver.start();
         }
-        else{
+        else {
             Tools.printSudoku(Tools.fieldsToArray(allFields));
             System.out.println("Thread " + Thread.currentThread().getId() + " has solved the puzzle");
-            for(Resolver resolver: resolverThreads){
-                resolver.interrupt();
+            for (Resolver resolver : resolverThreads) {
+                if (resolver.getId() != Thread.currentThread().getId()) {
+                    resolver.interrupt();
+                }
+                try {
+                    sleep(1000);
+                    System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + "\n" );
+                    Tools.printSudoku(Tools.fieldsToArray(allFields));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -61,17 +61,13 @@ public class Resolver extends Thread{
     }
 
 
-    private ArrayList<Field> getFieldsWithTwoPossibilities(){
-        ArrayList<Field> fieldsWithTwoPossibilities = new ArrayList<>();
+    private Field getFieldWithTwoPossibilities(){
         for(Field field: allFields){
             if(field.getValue() == 0 && findPossibleValue(field).size() == 2) {
-                fieldsWithTwoPossibilities.add(field);
+                return field;
             }
         }
-        if(fieldsWithTwoPossibilities.isEmpty()){
-            Thread.currentThread().interrupt();
-        }
-        return fieldsWithTwoPossibilities;
+        return null;
     }
 
     @Override
