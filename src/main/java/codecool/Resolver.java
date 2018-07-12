@@ -20,35 +20,40 @@ public class Resolver extends Thread{
     }
 
     public void run(){
-        resolve();
-        if(!isSolved()) {
-            Field field = null;
-            int possibilities = 1;
-            while(field == null && possibilities <5){
-                field = getFieldWithMultiplePossibilities(possibilities);
-                possibilities++;
-            }
-            for(Integer value: field.getProbablyValues()){
-                field.setValue(value);
-                Resolver resolver = new Resolver( Tools.fieldsToArray(allFields));
-                Tools.addResolverThread(resolver);
-                resolver.start();
+        try {
+            System.out.println(Tools.getResolverThreads().size());
+            resolve();
+            if (!isSolved()) {
+                Field field = null;
+                int possibilities = 1;
+                while (field == null && possibilities < 5) {
+                    field = getFieldWithMultiplePossibilities(possibilities);
+                    possibilities++;
+                }
+                for (Integer value : field.getProbablyValues()) {
+                    field.setValue(value);
+                    Resolver resolver = new Resolver(Tools.fieldsToArray(allFields));
+                    Tools.addResolverThread(resolver);
+                    resolver.start();
+                }
+            } else {
+                for (Resolver resolver : Tools.getResolverThreads()) {
+                    if (resolver.getId() != Thread.currentThread().getId()) {
+                        resolver.interrupt();
+                    }
+                    try {
+                        sleep(1000);
+                        System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + "\n");
+                        Tools.printSudoku(Tools.fieldsToArray(allFields));
+                        System.out.println("Thread count: " + Tools.getResolverThreads().size());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
-        else {
-            for (Resolver resolver : Tools.getResolverThreads()) {
-                if (resolver.getId() != Thread.currentThread().getId()) {
-                    resolver.interrupt();
-                }
-                try {
-                    sleep(1000);
-                    System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + "\n" );
-                    Tools.printSudoku(Tools.fieldsToArray(allFields));
-                    System.out.println("Thread count: " + Tools.getResolverThreads().size() );
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+        catch (NullPointerException e){
+
         }
     }
 

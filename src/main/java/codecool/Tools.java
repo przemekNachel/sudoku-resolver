@@ -10,8 +10,8 @@ import java.util.Set;
 public class Tools {
     private static ArrayList<Resolver> resolverThreads = new ArrayList<>();
 
-    static String tempStringSudoku = ".....75..7..1...4.5.....2....139...83..786..48...417....8.....9.5...3..1..46.....";
-
+    //static String tempStringSudoku = ".....75..7..1...4.5.....2....139...83..786..48...417....8.....9.5...3..1..46.....";
+    static  String tempStringSudoku = "..............3.85..1.2.......5.7.....4...1...9.......5......73..2.1........4...9";
     public static ArrayList<Resolver> getResolverThreads() {
         return resolverThreads;
     }
