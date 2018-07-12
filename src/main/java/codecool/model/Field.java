@@ -52,4 +52,8 @@ public class Field {
         notNullList.add(null);
         return notNullList;
     }
+
+    public void setProbablyValues(ArrayList<Integer> probablyValues){
+        this.probablyValues = probablyValues;
+    }
 }
