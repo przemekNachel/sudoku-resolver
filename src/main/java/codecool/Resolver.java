@@ -30,15 +30,17 @@ public class Resolver extends Thread{
     public void run(){
         resolve();
         if(!isSolved()) {
-            Field field = getFieldWithTwoPossibilities();
-            field.setValue(field.getProbablyValues().get(0));
-            Resolver resolver = new Resolver(allFields, rows, columns, squares);
-            resolverThreads.add(resolver);
-            resolver.start();
-            field.setValue(field.getProbablyValues().get(1));
-            Resolver nextResolver = new Resolver(allFields, rows, columns, squares);
-            resolverThreads.add(nextResolver);
-            nextResolver.start();
+            ArrayList<Field> fields = getFieldsWithTwoPossibilities();
+            for(Field field: fields ) {
+                field.setValue(field.getProbablyValues().get(0));
+                Resolver resolver = new Resolver(allFields, rows, columns, squares);
+                resolverThreads.add(resolver);
+                resolver.start();
+                field.setValue(field.getProbablyValues().get(1));
+                Resolver nextResolver = new Resolver(allFields, rows, columns, squares);
+                resolverThreads.add(nextResolver);
+                nextResolver.start();
+            }
         }
         else{
             Tools.printSudoku(Tools.fieldsToArray(allFields));
@@ -59,14 +61,17 @@ public class Resolver extends Thread{
     }
 
 
-    private Field getFieldWithTwoPossibilities(){
+    private ArrayList<Field> getFieldsWithTwoPossibilities(){
+        ArrayList<Field> fieldsWithTwoPossibilities = new ArrayList<>();
         for(Field field: allFields){
             if(field.getValue() == 0 && findPossibleValue(field).size() == 2) {
-                return field;
+                fieldsWithTwoPossibilities.add(field);
             }
         }
-        Thread.currentThread().interrupt();
-        return null;
+        if(fieldsWithTwoPossibilities.isEmpty()){
+            Thread.currentThread().interrupt();
+        }
+        return fieldsWithTwoPossibilities;
     }
 
     @Override
