@@ -11,6 +11,7 @@ public class Resolver extends Thread{
     private Collection[] rows = new Collection[9];
     private Collection[] columns = new Collection[9];
     private Collection[] squares = new Collection[9];
+    private static ArrayList<Resolver> resolverThreads = new ArrayList<>();
 
     public Resolver(int[][] sudoku){
         divideBoard(sudoku);
@@ -32,10 +33,19 @@ public class Resolver extends Thread{
             Field field = getFieldWithTwoPossibilities();
             field.setValue(field.getProbablyValues().get(0));
             Resolver resolver = new Resolver(allFields, rows, columns, squares);
+            resolverThreads.add(resolver);
             resolver.start();
             field.setValue(field.getProbablyValues().get(1));
             Resolver nextResolver = new Resolver(allFields, rows, columns, squares);
+            resolverThreads.add(nextResolver);
             nextResolver.start();
+        }
+        else{
+            Tools.printSudoku(Tools.fieldsToArray(allFields));
+            System.out.println("Thread " + Thread.currentThread().getId() + " has solved the puzzle");
+            for(Resolver resolver: resolverThreads){
+                resolver.interrupt();
+            }
         }
     }
 
@@ -55,7 +65,13 @@ public class Resolver extends Thread{
                 return field;
             }
         }
+        Thread.currentThread().interrupt();
         return null;
+    }
+
+    @Override
+    public void interrupt(){
+        System.out.println("Thread no. " + Thread.currentThread().getId() + " Has been interrupted");
     }
 
     public void resolve() {
