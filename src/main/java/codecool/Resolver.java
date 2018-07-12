@@ -48,6 +48,8 @@ public class Resolver extends Thread{
                         System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + " in " + (stopTime - startTime) + " milliseconds.\n");
                         Tools.printSudoku(Tools.fieldsToArray(allFields));
                         System.out.println("Thread count: " + Tools.getResolverThreads().size());
+                        Tools.setResultSolvedBoard(allFields);
+                        Tools.setResultStopTimeMilli(stopTime - startTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

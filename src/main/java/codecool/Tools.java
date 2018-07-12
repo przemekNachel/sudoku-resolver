@@ -9,6 +9,9 @@ import java.util.Set;
 
 public class Tools {
     private static ArrayList<Resolver> resolverThreads = new ArrayList<>();
+    private static long resultStopTimeMilli;
+    private static ArrayList<Field> resultSolvedBoard;
+
 
     static String tempStringSudoku = ".....75..7..1...4.5.....2....139...83..786..48...417....8.....9.5...3..1..46.....";
     //static  String tempStringSudoku = "..............3.85..1.2.......5.7.....4...1...9.......5......73..2.1........4...9";
@@ -19,7 +22,6 @@ public class Tools {
     public static void addResolverThread(Resolver resolver) {
         resolverThreads.add(resolver);
     }
-
     public static void printSudoku(int[][] sudoku) {
         for(int i = 0; i < sudoku.length; i++) {
             for(int j = 0; j < sudoku[i].length; j++) {
@@ -64,5 +66,25 @@ public class Tools {
             array[field.getRowId()][field.getColumnId()] = field.getValue();
         }
         return array;
+    }
+
+    public static long getResultStopTimeMilli() {
+        return resultStopTimeMilli;
+    }
+
+    public static void setResultStopTimeMilli(long resultStopTimeMilli) {
+        Tools.resultStopTimeMilli = resultStopTimeMilli;
+    }
+
+    public static ArrayList<Field> getResultSolvedBoard() {
+        return resultSolvedBoard;
+    }
+
+    public static void setResultSolvedBoard(ArrayList<Field> resultSolvedBoard) {
+        Tools.resultSolvedBoard = resultSolvedBoard;
+    }
+
+    public static void resetThreadCount(){
+        resolverThreads = new ArrayList<>();
     }
 }
