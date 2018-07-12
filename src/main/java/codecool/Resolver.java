@@ -25,7 +25,7 @@ public class Resolver extends Thread{
         if(!isSolved()) {
             Field field = null;
             int possibilities = 1;
-            while(field == null){
+            while(field == null && possibilities <5){
                 field = getFieldWithMultiplePossibilities(possibilities);
                 possibilities++;
             }
@@ -44,7 +44,7 @@ public class Resolver extends Thread{
                     resolver.interrupt();
                 }
                 try {
-                    sleep(1000);
+                    sleep(15000);
                     System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + "\n" );
                     Tools.printSudoku(Tools.fieldsToArray(allFields));
                     System.out.println("Thread count: " + resolverThreads.size() );
@@ -103,11 +103,6 @@ public class Resolver extends Thread{
                     Tools.printSudoku(Tools.fieldsToArray(allFields));
                     System.out.println(numberOfInserted);
                     System.out.println(Tools.isCorrect(Tools.fieldsToArray(allFields)));
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     areAllCertainFound = false;
                 }
             }
