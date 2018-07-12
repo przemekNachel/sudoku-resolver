@@ -23,9 +23,11 @@ public class Resolver extends Thread{
     public void run(){
         resolve();
         if(!isSolved()) {
-            Field field = getFieldWithTwoPossibilities();
-            if(field == null){
-
+            Field field = null;
+            int possibilities = 1;
+            while(field == null){
+                field = getFieldWithMultiplePossibilities(possibilities);
+                possibilities++;
             }
             for(Integer value: field.getProbablyValues()){
                 field.setValue(value);
@@ -62,19 +64,9 @@ public class Resolver extends Thread{
         return true;
     }
 
-
-    private Field getFieldWithTwoPossibilities(){
+    private Field getFieldWithMultiplePossibilities(int possibilities){
         for(Field field: allFields){
-            if(field.getValue() == 0 && findPossibleValue(field).size() == 2) {
-                return field;
-            }
-        }
-        return null;
-    }
-
-    private Field getFieldWithMultiplePossibilities(){
-        for(Field field: allFields){
-            if(field.getValue() == 0 && findPossibleValue(field).size() > 2){
+            if(field.getValue() == 0 && findPossibleValue(field).size() > possibilities){
                 return field;
             }
         }
