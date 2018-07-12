@@ -2,13 +2,23 @@ package codecool;
 
 import codecool.model.Field;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Tools {
+    private static ArrayList<Resolver> resolverThreads = new ArrayList<>();
 
     static String tempStringSudoku = ".....75..7..1...4.5.....2....139...83..786..48...417....8.....9.5...3..1..46.....";
+
+    public static ArrayList<Resolver> getResolverThreads() {
+        return resolverThreads;
+    }
+
+    public static void addResolverThread(Resolver resolver) {
+        resolverThreads.add(resolver);
+    }
 
     static int[][] tempSudoku = new int[][] {
             {0, 0, 0,   0, 0, 6,   4, 0, 9},

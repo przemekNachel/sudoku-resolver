@@ -11,13 +11,12 @@ public class Resolver extends Thread{
     private Collection[] rows = new Collection[9];
     private Collection[] columns = new Collection[9];
     private Collection[] squares = new Collection[9];
-    private static ArrayList<Resolver> resolverThreads = new ArrayList<>();
+
 
     public Resolver(int[][] sudoku){
         divideBoard(sudoku);
         fullfillArraysWithEmptyCollections();
         addFieldsToCollections();
-        System.out.println(Tools.isCorrect(sudoku));
     }
 
     public void run(){
@@ -32,22 +31,20 @@ public class Resolver extends Thread{
             for(Integer value: field.getProbablyValues()){
                 field.setValue(value);
                 Resolver resolver = new Resolver( Tools.fieldsToArray(allFields));
-                resolverThreads.add(resolver);
+                Tools.addResolverThread(resolver);
                 resolver.start();
             }
         }
         else {
-            Tools.printSudoku(Tools.fieldsToArray(allFields));
-            System.out.println("Thread " + Thread.currentThread().getId() + " has solved the puzzle");
-            for (Resolver resolver : resolverThreads) {
+            for (Resolver resolver : Tools.getResolverThreads()) {
                 if (resolver.getId() != Thread.currentThread().getId()) {
                     resolver.interrupt();
                 }
                 try {
-                    sleep(15000);
+                    sleep(1000);
                     System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + "\n" );
                     Tools.printSudoku(Tools.fieldsToArray(allFields));
-                    System.out.println("Thread count: " + resolverThreads.size() );
+                    System.out.println("Thread count: " + Tools.getResolverThreads().size() );
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -79,10 +76,6 @@ public class Resolver extends Thread{
     }
 
     public void resolve() {
-//        addFieldsFromCollumns();
-        Tools.printSudoku(Tools.fieldsToArray(allFields));
-
-        /* W RAMACH TESTOWANIA */
         boolean areAllCertainFound = false;
 
         int numberOfInserted = 0;
@@ -95,14 +88,8 @@ public class Resolver extends Thread{
                 }
                 findPossibleValue(field);
                 if (field.getProbablyValues() != null && field.getProbablyValues().size() == 1) {
-                    System.out.println("\n\n\n" + Thread.currentThread().getId());
-                    System.out.println("PEWNIACZEK DLA FIELDA O WSPÓŁRZĘDNYCH " + field.getRowId()
-                            + " " + field.getColumnId() + " TO > " + field.getProbablyValues().get(0));
                     field.setValue(field.getProbablyValues().get(0));
                     numberOfInserted++;
-                    Tools.printSudoku(Tools.fieldsToArray(allFields));
-                    System.out.println(numberOfInserted);
-                    System.out.println(Tools.isCorrect(Tools.fieldsToArray(allFields)));
                     areAllCertainFound = false;
                 }
             }

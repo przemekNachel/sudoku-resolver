@@ -45,7 +45,12 @@ public class Field {
     }
 
     public ArrayList<Integer> getProbablyValues() {
-        return probablyValues;
+        if (probablyValues != null && !probablyValues.isEmpty()){
+            return probablyValues;
+        }
+        ArrayList<Integer> notNullList = new ArrayList<>();
+        notNullList.add(null);
+        return notNullList;
     }
 
     public void setProbablyValues(ArrayList<Integer> probablyValues){
