@@ -24,14 +24,15 @@ public class Resolver extends Thread{
         resolve();
         if(!isSolved()) {
             Field field = getFieldWithTwoPossibilities();
-            field.setValue(field.getProbablyValues().get(0));
-            Resolver resolver = new Resolver( Tools.fieldsToArray(allFields));
-            resolverThreads.add(resolver);
-            resolver.start();
-            field.setValue(field.getProbablyValues().get(1));
-            Resolver nextResolver = new Resolver(Tools.fieldsToArray(allFields));
-            resolverThreads.add(nextResolver);
-            nextResolver.start();
+            if(field == null){
+
+            }
+            for(Integer value: field.getProbablyValues()){
+                field.setValue(value);
+                Resolver resolver = new Resolver( Tools.fieldsToArray(allFields));
+                resolverThreads.add(resolver);
+                resolver.start();
+            }
         }
         else {
             Tools.printSudoku(Tools.fieldsToArray(allFields));
@@ -44,6 +45,7 @@ public class Resolver extends Thread{
                     sleep(1000);
                     System.out.println("\n\n\n\nSudoku solved by thread: " + Thread.currentThread().getId() + "\n" );
                     Tools.printSudoku(Tools.fieldsToArray(allFields));
+                    System.out.println("Thread count: " + resolverThreads.size() );
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -64,6 +66,15 @@ public class Resolver extends Thread{
     private Field getFieldWithTwoPossibilities(){
         for(Field field: allFields){
             if(field.getValue() == 0 && findPossibleValue(field).size() == 2) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    private Field getFieldWithMultiplePossibilities(){
+        for(Field field: allFields){
+            if(field.getValue() == 0 && findPossibleValue(field).size() > 2){
                 return field;
             }
         }
